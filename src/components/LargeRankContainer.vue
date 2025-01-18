@@ -1,14 +1,14 @@
 <script setup lang="ts">
 
 import IndexRankCell from '@/components/IndexRankCell.vue'
-const cnt : Array<number> = [0,1,2,3,4,5,6,7,8,9];
+const cnt : Array<number> = [1,2,3,4,5,6,7,8,9,10];
 
 </script>
 
 <template>
   <div class="rank-container">
     <h2>을지부대 랭킹</h2>
-    <IndexRankCell v-for="(i) in cnt" :key="i"/>
+    <IndexRankCell v-for="(i) in cnt" :key="i" :rank="i"/>
   </div>
 </template>
 

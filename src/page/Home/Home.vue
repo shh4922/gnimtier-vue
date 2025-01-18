@@ -33,6 +33,7 @@ onMounted(()=> {
   align-items: center;
   gap: 4rem;
   padding: 1rem 2rem;
+  background-color: #1B1B1B;
 }
 
 

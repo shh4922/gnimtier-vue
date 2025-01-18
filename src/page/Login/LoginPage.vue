@@ -25,7 +25,6 @@ function login() {
         <input type="password" v-model="password" placeholder="비밀번호 입력"/>
         <button @click="login" v-bind:disabled="isEmpty">응애 로그인할거얌</button>
         <router-link to="/register">아직도 계정이 없어?? 제발 가입해주세요 ㅠㅠ</router-link>
-
       </div>
     </div>
   </div>
@@ -39,12 +38,12 @@ function login() {
   display: flex;
   align-items: center;
   justify-content: center;
-
+  //background-color: red;
 
   .login-box {
     display: flex;
     flex-direction: column;
-    width: 400px;
+    width: 90%;
     height: 500px;
     border: 1px solid #ffffff;
     border-radius: 1rem;

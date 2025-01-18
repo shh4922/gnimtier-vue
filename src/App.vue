@@ -53,7 +53,7 @@ a {
   padding: 2rem;
   width: 100%;
   gap: 1rem; /* 간격 조정 (선택 사항) */
-
+  background-color: #1B1B1B;
   display: flex;
 }
 
@@ -66,6 +66,7 @@ a {
 .content {
   flex: 1; /* 남은 공간을 차지하도록 설정 */
   background-color: #2c2c2c; /* Main 영역의 배경색 */
+  background-color: #1B1B1B;
 }
 
 

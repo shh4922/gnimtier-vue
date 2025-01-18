@@ -1,17 +1,19 @@
 <script setup lang="ts">
 
+const props = defineProps(['rank']) // 부모Component에서 받은값
+
 </script>
 
 <template>
   <div class="rank-cell-container">
-    <p class="rank">1</p>
-    <img src="https://scontent-ssn1-1.xx.fbcdn.net/v/t1.6435-9/106399466_666605147400072_4712699902895585087_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=3a1ebe&_nc_ohc=TxF1kByLe-8Q7kNvgGuVM80&_nc_zt=23&_nc_ht=scontent-ssn1-1.xx&_nc_gid=ANskEC2MuaPaAygVtrpUlzk&oh=00_AYAAQp2BTvR42zf5snui8IizCBfFw_OfJNMw_7WL9k-JuA&oe=679774BE" alt="" />
+    <p class="rank p-bold">{{props.rank}}</p>
+    <img src="https://ddragon.leagueoflegends.com/cdn/15.1.1/img/profileicon/1.png" alt="" />
     <div class="riot-info">
-      <p>계정명</p>
+      <p class="p-bold">나 잡아봐랑 끼힛</p>
       <p>#kr1</p>
     </div>
     <div class="user-info">
-      <p>여기서쓰는 닉네임임</p>
+      <p class="p-bold">개쩌는 그님티 닉네임임</p>
       <p>백골부대</p>
     </div>
     <p class="level">Lv. 192</p>
@@ -33,10 +35,17 @@
   gap: 1rem;
   padding: 0.5rem;
 
+  p {
+    font-weight: lighter;
+  }
+  .p-bold {
+    font-weight: bold;
+  }
+
   .rank {
-    width: 10%;
-    background-color: #f2f2f2;
+    width: 7%;
     text-align: center;
+    color: #ffffff;
   }
 
   img {
@@ -48,17 +57,17 @@
 
   .riot-info {
     width: 30%;
-    background-color: #f2f2f2;
+    color: #ffffff;
   }
 
   .user-info {
-    width: 30%;
-    background-color: #282828;
+    width: 40%;
+    color: #ffffff;
   }
 
   .level {
     width: 20%;
-    background-color: #f2f2f2;
+    color: #ffffff;
   }
 }
 </style>

@@ -1,27 +1,34 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import axios from 'axios'
-import duplicateNickname from '@/api/auth.ts'
+import { computed, ref} from 'vue'
+import {debounce} from 'lodash'
 
 const email = ref("")
 const password = ref("")
 const password2 = ref("")
 const nickname = ref("")
-const isEnabledNickname = ref(false)
 
 const isEmpty = computed(() => email.value === "" || password.value === "" || password2.value === "" || nickname.value === "")
+const isSamePassword = computed(() => password.value === password2.value)
+
+const isUsedEmail = ref<boolean|null>(null)
+const isUsedNicname = ref<boolean|null>(null)
+
 
 function register() {
-  console.log(email.value)
-  console.log(password.value)
 }
 
-async function checkNickname() {
-  const res = duplicateNickname()
-  if(res) {
-    isEnabledNickname.value = true
-  }
-}
+// 이메일 중복 체크 (debounce 적용)
+const checkEmail = debounce(async (emailToCheck: string) => {
+  console.log(`Checking email: ${emailToCheck}`)
+  isUsedEmail.value = false
+}, 1500)
+
+const checkNickName = debounce(async (emailToCheck: string) => {
+  console.log(`Checking email: ${emailToCheck}`)
+  isUsedNicname.value = false
+}, 1500)
+
+
 
 </script>
 
@@ -35,16 +42,17 @@ async function checkNickname() {
 
 
       <div class="login-form">
-        <input class="email-input" type="email" v-model="email" placeholder="이메일 입력"/>
-
-        <input type="text" v-model="nickname" placeholder="사용하실 닉네임을 입력해주세요."/>
-        <button>닉네임 중복체크</button>
-
+        <input class="email-input" type="email" v-model="email" placeholder="이메일 입력" @input="checkEmail"/>
+        <p v-if="isUsedEmail !== null && !isUsedEmail">사용가능한 이메일입니다!</p>
+        <p v-if="isUsedEmail">사용중인 이메일입니다!</p>
+        <input type="text" v-model="nickname" placeholder="사용하실 닉네임을 입력해주세요." @input="checkNickName"/>
+        <p v-if="isUsedNicname!==null && !isUsedNicname">사용가능한 닉네임 입니다!</p>
+        <p v-if="isUsedNicname">이미 사용중인 닉네임 입니다.</p>
         <input type="password" v-model="password" placeholder="비밀번호 입력"/>
         <input type="password" v-model="password2" placeholder="비밀번호 확인"/>
-        <button @click="register" v-bind:disabled="isEmpty">가입 드가자잉</button>
-
+        <p v-if="isSamePassword !== null && isSamePassword">비밀번호 확인이 완료되었습니다.</p>
       </div>
+      <button @click="register" v-bind:disabled="isEmpty">가입</button>
     </div>
   </div>
 </template>
@@ -52,6 +60,7 @@ async function checkNickname() {
 
 
 <style scoped lang="scss">
+
 .login-container {
   height: 100%;
   display: flex;
@@ -62,17 +71,18 @@ async function checkNickname() {
   .login-box {
     display: flex;
     flex-direction: column;
-    width: 400px;
-    height: 500px;
+    align-items: center;
+    width: 90%;
     border: 1px solid #ffffff;
     border-radius: 1rem;
     gap: 1rem;
     margin: 0 auto;
-    padding: 1rem;
+    padding: 1rem 2rem  ;
 
     .login-header {
       margin-bottom: 5rem;
       text-align: center;
+      width: 100%;
       h3 {
         font-size: 2.5rem;
         color: #ffffff;
@@ -90,9 +100,9 @@ async function checkNickname() {
     .login-form {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-
+      align-items: start;
+      gap: 1.5rem;
+      width: 100%;
 
       input,button {
         font-size: 1.2rem;
@@ -104,24 +114,27 @@ async function checkNickname() {
         border: 1px solid #ffffff;
         width: 100%;
       }
-      .email-input {
-        margin-bottom: 1.5rem;
-      }
 
-      button {
-        margin-top: 10rem;
-        font-weight: normal;
-        width: 50%;
-        background-color: dodgerblue;
-      }
-      button:disabled {
-        background-color: #cccccc;
-      }
+
+
+
 
       a {
         font-size: 1.2rem;
         color: lightgray;
       }
+    }
+
+    button {
+      font-weight: normal;
+      width: 50%;
+      background-color: dodgerblue;
+      height: 40px;
+      border-radius: 1rem;
+      border: none;
+    }
+    button:disabled {
+      background-color: #cccccc;
     }
   }
 }
