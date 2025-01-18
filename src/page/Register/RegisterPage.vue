@@ -1,30 +1,48 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import axios from 'axios'
+import duplicateNickname from '@/api/auth.ts'
 
 const email = ref("")
 const password = ref("")
-const isEmpty = computed(() => email.value === "" || password.value === "")
+const password2 = ref("")
+const nickname = ref("")
+const isEnabledNickname = ref(false)
 
-function login() {
+const isEmpty = computed(() => email.value === "" || password.value === "" || password2.value === "" || nickname.value === "")
+
+function register() {
   console.log(email.value)
   console.log(password.value)
 }
+
+async function checkNickname() {
+  const res = duplicateNickname()
+  if(res) {
+    isEnabledNickname.value = true
+  }
+}
+
 </script>
 
 <template>
   <div class="login-container">
     <div class="login-box">
       <div class="login-header">
-        <h3>로그인하기</h3>
-        <p>저희 그님티는 유저정보를 함부러 유출시키지 않습니다. <br> 안심하고 로그인하세요(해주세요 제발)</p>
+        <h3>회원가입</h3>
+        <p>가입하러 와 주셨군요..ㅠ <br> 갑사합니다..ㅠㅠ</p>
       </div>
 
 
       <div class="login-form">
-        <input type="email" v-model="email" placeholder="이메일 입력"/>
+        <input class="email-input" type="email" v-model="email" placeholder="이메일 입력"/>
+
+        <input type="text" v-model="nickname" placeholder="사용하실 닉네임을 입력해주세요."/>
+        <button>닉네임 중복체크</button>
+
         <input type="password" v-model="password" placeholder="비밀번호 입력"/>
-        <button @click="login" v-bind:disabled="isEmpty">응애 로그인할거얌</button>
-        <router-link to="/register">아직도 계정이 없어?? 제발 가입해주세요 ㅠㅠ</router-link>
+        <input type="password" v-model="password2" placeholder="비밀번호 확인"/>
+        <button @click="register" v-bind:disabled="isEmpty">가입 드가자잉</button>
 
       </div>
     </div>
@@ -75,6 +93,7 @@ function login() {
       align-items: center;
       gap: 1rem;
 
+
       input,button {
         font-size: 1.2rem;
         border-radius: 0.5rem;
@@ -84,6 +103,9 @@ function login() {
         font-weight: lighter;
         border: 1px solid #ffffff;
         width: 100%;
+      }
+      .email-input {
+        margin-bottom: 1.5rem;
       }
 
       button {

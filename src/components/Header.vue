@@ -20,7 +20,7 @@ header {
   justify-content: space-between;
   align-items: center;
   background-color: #1B1B1B;
-  padding: 24px 160px;
+  padding: 2rem 5rem;
   border-bottom: 1px solid #ffffff;
   height: 8%;
 }

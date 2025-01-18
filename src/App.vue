@@ -9,15 +9,15 @@ import MainLayout from '@/components/MainLayout.vue'
   <div id="app">
     <Header/>
     <div class="main-container">
-      <div class="ads">
-        광고임
-      </div>
+<!--      <div class="ads">-->
+<!--        광고임-->
+<!--      </div>-->
       <main class="content">
         <MainLayout/>
       </main>
-      <div class="ads">
-        광고임
-      </div>
+<!--      <div class="ads">-->
+<!--        광고임-->
+<!--      </div>-->
     </div>
     <Footer/>
   </div>
@@ -31,6 +31,7 @@ html, body, #app {
   height: 100%;
   max-width: 100%;
   font-size: 10px;
+  background-color: #1B1B1B;
 }
 
 #app {
@@ -38,8 +39,8 @@ html, body, #app {
   flex-direction: column;
   min-height: 100vh;
   background-color: #1B1B1B;
-  margin: 0;
-  width: 100%;
+  margin: 0 auto;
+  width: 769px;
 }
 
 /* 공통 링크 스타일 */
@@ -50,10 +51,10 @@ a {
 .main-container {
   flex: 1;
   padding: 2rem;
-  background-color: #1B1B1B;
-  display: flex; /* Flexbox 설정 */
   width: 100%;
   gap: 1rem; /* 간격 조정 (선택 사항) */
+
+  display: flex;
 }
 
 .ads {
@@ -66,4 +67,6 @@ a {
   flex: 1; /* 남은 공간을 차지하도록 설정 */
   background-color: #2c2c2c; /* Main 영역의 배경색 */
 }
+
+
 </style>
