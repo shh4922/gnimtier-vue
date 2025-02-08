@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, ref} from 'vue'
-import {debounce} from 'lodash'
 
 const email = ref("")
 const password = ref("")

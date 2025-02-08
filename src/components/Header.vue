@@ -22,11 +22,12 @@ import type { User } from '@/api/tft/model.tft.ts'
     <router-link to="/">그래서 님 티어가?</router-link>
 
     <nav>
-      <div v-if="access">
-<!--        <router-link to="/userInfo" class="btn-login">{{myInfo.nickname}}</router-link>-->
-        <router-link to="/login" class="btn-login">로그아웃</router-link>
-      </div>
-      <router-link v-if="!access" to="/login" class="btn-login">로그인</router-link>
+<!--      <div v-if="access">-->
+<!--&lt;!&ndash;        <router-link to="/userInfo" class="btn-login">{{myInfo.nickname}}</router-link>&ndash;&gt;-->
+<!--        <router-link to="/login" class="btn-login">로그아웃</router-link>-->
+<!--      </div>-->
+<!--      v-if="!access"-->
+      <router-link to="/login" class="btn-login">로그인</router-link>
     </nav>
   </header>
 </template>
