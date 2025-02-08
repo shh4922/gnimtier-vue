@@ -17,15 +17,15 @@ function register() {
 }
 
 // 이메일 중복 체크 (debounce 적용)
-const checkEmail = debounce(async (emailToCheck: string) => {
-  console.log(`Checking email: ${emailToCheck}`)
-  isUsedEmail.value = false
-}, 1500)
-
-const checkNickName = debounce(async (emailToCheck: string) => {
-  console.log(`Checking email: ${emailToCheck}`)
-  isUsedNicname.value = false
-}, 1500)
+// const checkEmail = debounce(async (emailToCheck: string) => {
+//   console.log(`Checking email: ${emailToCheck}`)
+//   isUsedEmail.value = false
+// }, 1500)
+//
+// const checkNickName = debounce(async (emailToCheck: string) => {
+//   console.log(`Checking email: ${emailToCheck}`)
+//   isUsedNicname.value = false
+// }, 1500)
 
 
 
@@ -40,18 +40,18 @@ const checkNickName = debounce(async (emailToCheck: string) => {
       </div>
 
 
-      <div class="login-form">
-        <input class="email-input" type="email" v-model="email" placeholder="이메일 입력" @input="checkEmail"/>
-        <p v-if="isUsedEmail !== null && !isUsedEmail">사용가능한 이메일입니다!</p>
-        <p v-if="isUsedEmail">사용중인 이메일입니다!</p>
-        <input type="text" v-model="nickname" placeholder="사용하실 닉네임을 입력해주세요." @input="checkNickName"/>
-        <p v-if="isUsedNicname!==null && !isUsedNicname">사용가능한 닉네임 입니다!</p>
-        <p v-if="isUsedNicname">이미 사용중인 닉네임 입니다.</p>
-        <input type="password" v-model="password" placeholder="비밀번호 입력"/>
-        <input type="password" v-model="password2" placeholder="비밀번호 확인"/>
-        <p v-if="isSamePassword !== null && isSamePassword">비밀번호 확인이 완료되었습니다.</p>
-      </div>
-      <button @click="register" v-bind:disabled="isEmpty">가입</button>
+<!--      <div class="login-form">-->
+<!--        <input class="email-input" type="email" v-model="email" placeholder="이메일 입력" @input="checkEmail"/>-->
+<!--        <p v-if="isUsedEmail !== null && !isUsedEmail">사용가능한 이메일입니다!</p>-->
+<!--        <p v-if="isUsedEmail">사용중인 이메일입니다!</p>-->
+<!--        <input type="text" v-model="nickname" placeholder="사용하실 닉네임을 입력해주세요." @input="checkNickName"/>-->
+<!--        <p v-if="isUsedNicname!==null && !isUsedNicname">사용가능한 닉네임 입니다!</p>-->
+<!--        <p v-if="isUsedNicname">이미 사용중인 닉네임 입니다.</p>-->
+<!--        <input type="password" v-model="password" placeholder="비밀번호 입력"/>-->
+<!--        <input type="password" v-model="password2" placeholder="비밀번호 확인"/>-->
+<!--        <p v-if="isSamePassword !== null && isSamePassword">비밀번호 확인이 완료되었습니다.</p>-->
+<!--      </div>-->
+<!--      <button @click="register" v-bind:disabled="isEmpty">가입</button>-->
     </div>
   </div>
 </template>

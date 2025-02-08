@@ -15,7 +15,7 @@ const router = createRouter({
       children: [
         { path: '', component: Home},
         { path: 'login', component: LoginPage},
-        { path: 'register', component: RegisterPage},
+        // { path: 'register', component: RegisterPage},
         { path: 'kakaologin', component: KakaoLogin},
         { path: 'userInfo', component: UserInfo},
       ]
