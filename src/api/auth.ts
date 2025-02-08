@@ -1,10 +1,14 @@
 import axios from 'axios'
+import { get } from '@/api/http.ts'
 
-const BASE_URL = 'http://localhost:3000'
-const headers = {"ss":"대충토큰"}
+export interface authResponse {
+  access_token: string,
+  refresh_token: string,
+}
 
-export default function duplicateNickname() {
-  return axios.get(BASE_URL,{
-    headers: headers
-  })
+
+export function fetchTokenWithKakaoCode(code: string):Promise<authResponse> {
+  const params= { code: code }
+
+  return get("/auth/oauth/kakao",{ params:params })
 }

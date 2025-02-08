@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+// const kakaoLoginLink = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=0ca59946bbb41256d04ce14d7f84b150&redirect_uri=https://api.그님티.kr/dev/v1/gnt/auth/oauth/kakao"
 
-const email = ref("")
-const password = ref("")
-const isEmpty = computed(() => email.value === "" || password.value === "")
 
-function login() {
-  console.log(email.value)
-  console.log(password.value)
+function kakaoLogin() {
+  window.Kakao.Auth.authorize({
+    redirectUri: "http://localhost:5173/kakaologin",
+  });
 }
+
+
 </script>
 
 <template>
@@ -16,21 +16,26 @@ function login() {
     <div class="login-box">
       <div class="login-header">
         <h3>로그인하기</h3>
-        <p>저희 그님티는 유저정보를 함부러 유출시키지 않습니다. <br> 안심하고 로그인하세요(해주세요 제발)</p>
+        <p>
+          저희 그님티는 유저정보를 함부러 유출시키지 않습니다. <br />
+          안심하고 로그인하세요(해주세요 제발)
+        </p>
       </div>
+      <!--      <router-link to="``"><img src="/public/kakao_login.png" alt="kakao-login-image"></router-link>-->
+      <button @click="kakaoLogin">
+        <img src="/public/kakao_login.png" alt="kakao-login-image" />
+      </button>
 
-
-      <div class="login-form">
-        <input type="email" v-model="email" placeholder="이메일 입력"/>
-        <input type="password" v-model="password" placeholder="비밀번호 입력"/>
-        <button @click="login" v-bind:disabled="isEmpty">응애 로그인할거얌</button>
-        <router-link to="/register">아직도 계정이 없어?? 제발 가입해주세요 ㅠㅠ</router-link>
-      </div>
+      <!-- 이메일 로그인 추가 -->
+      <!--      <div class="login-form">-->
+      <!--        <input type="email" v-data="email" placeholder="이메일 입력"/>-->
+      <!--        <input type="password" v-data="password" placeholder="비밀번호 입력"/>-->
+      <!--        <button @click="login" v-bind:disabled="isEmpty">응애 로그인할거얌</button>-->
+      <!--        <router-link to="/register">아직도 계정이 없어?? 제발 가입해주세요 ㅠㅠ</router-link>-->
+      <!--      </div>-->
     </div>
   </div>
 </template>
-
-
 
 <style scoped lang="scss">
 .login-container {
@@ -43,6 +48,7 @@ function login() {
   .login-box {
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: 90%;
     height: 500px;
     border: 1px solid #ffffff;
@@ -65,16 +71,24 @@ function login() {
         font-weight: normal;
         color: lightgray;
       }
-
     }
+    button {
+      background-color: transparent;
+      border: none;
 
+      img {
+        cursor: pointer;
+      }
+    }
+    /** 이메일 로그인 폼*/
     .login-form {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 1rem;
 
-      input,button {
+      input,
+      button {
         font-size: 1.2rem;
         border-radius: 0.5rem;
         padding: 1.2rem;
@@ -102,6 +116,4 @@ function login() {
     }
   }
 }
-
-
 </style>

@@ -8,7 +8,6 @@ const http: Axios = axios.create({
   baseURL: import.meta.env.VITE_BASEURL,
   headers: {
     'Content-Type': 'application/json',
-    'Authorization' : `BEAR token`
   },
   timeout: 5000
 })

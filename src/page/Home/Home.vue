@@ -1,18 +1,20 @@
 <script setup lang="ts">
-
 import LargeRankContainer from '@/components/LargeRankContainer.vue'
-import { onMounted, ref } from 'vue'
-import { fetchUserList, type User } from '@/api/user.ts'
+import { onMounted, ref, type Ref } from 'vue'
+import { fetchMyInfo } from '@/api/user.ts'
+import type { User } from '@/api/tft/model.tft.ts'
+import type { tftUsersResponse } from '@/api/tft/tft.ts'
+import { getWithToken } from '@/api/http.ts'
 
-const userList = ref<User[]>([])
+// const myInfo: Ref<User|null> = ref(null); // Ref 타입 명시
 
-async function getUserList() {
-  const res = await fetchUserList()
-  userList.value = res
+async function getUserInfo() {
+  const res = await getWithToken('users/me')
+  return res
 }
 
-onMounted(()=> {
-  getUserList()
+onMounted(() => {
+  getUserInfo()
 })
 
 </script>
@@ -20,8 +22,8 @@ onMounted(()=> {
 <template>
   <div class="home-container">
     <LargeRankContainer/>
-    <LargeRankContainer/>
-    <LargeRankContainer/>
+<!--    <LargeRankContainer/>-->
+<!--    <LargeRankContainer/>-->
   </div>
 </template>
 

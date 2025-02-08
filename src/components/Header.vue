@@ -1,5 +1,20 @@
 <script setup lang="ts">
+import { onMounted, type Ref, ref } from 'vue'
+import { fetchMyInfo } from '@/api/user.ts'
+import type { User } from '@/api/tft/model.tft.ts'
 
+// const access = ref(localStorage.getItem('a'))
+// const myInfo: Ref<User> = ref(null)
+// onMounted(() => {
+//   if (access.value) {
+//     console.log(access.value)
+//     getMyInfo()
+//   }
+// })
+
+// async function getMyInfo() {
+//   myInfo.value = await fetchMyInfo()
+// }
 </script>
 
 <template>
@@ -7,19 +22,21 @@
     <router-link to="/">그래서 님 티어가?</router-link>
 
     <nav>
-      <router-link to="/login" class="btn-login">로그인</router-link>
+      <div v-if="access">
+<!--        <router-link to="/userInfo" class="btn-login">{{myInfo.nickname}}</router-link>-->
+        <router-link to="/login" class="btn-login">로그아웃</router-link>
+      </div>
+      <router-link v-if="!access" to="/login" class="btn-login">로그인</router-link>
     </nav>
   </header>
 </template>
-
-
 
 <style scoped lang="scss">
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #1B1B1B;
+  background-color: #1b1b1b;
   padding: 2rem 5rem;
   border-bottom: 1px solid #ffffff;
   height: 8%;
@@ -27,7 +44,7 @@ header {
 
 a {
   font-size: 1.6rem;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .btn-login {
@@ -40,7 +57,4 @@ a {
   //margin-right: 100px;
 }
 /* Frame 661 */
-
-
-
 </style>

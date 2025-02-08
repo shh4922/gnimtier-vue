@@ -1,15 +1,15 @@
 import axios from "axios";
-// import * as process from 'node:process'
-
+import { get } from '@/api/http.ts'
+import type { authResponse } from '@/api/auth.ts'
 
 const interceptorAxios = axios.create({
-  // baseURL: process.env.VUE_APP_BASEURL,
+  baseURL: import.meta.env.VITE_BASEURL,
   timeout: 5000,
 })
 
 interceptorAxios.interceptors.request.use(
   (config) => {
-    const accessToken = localStorage.getItem("accessToken")
+    const accessToken = localStorage.getItem("a")
 
     if(accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`
@@ -26,23 +26,37 @@ interceptorAxios.interceptors.response.use(
     switch (error?.response?.status) {
       case 401:
         try {
-          const result = await axios.get(`토큰요청api`, { withCredentials: true})
-          localStorage.setItem("accessToken", result.data.accessToken)
+          const refresh = localStorage.getItem('r')
+          const params = {
+            "Refresh" : refresh
+          }
 
-          error.config.headers.Authorization = `Bearer ${localStorage.getItem("accessToken")}`
+          const result = await get<authResponse>("/auth/refresh", {
+            params: params,
+          })
 
+          if(result.access_token !== null) {
+            localStorage.removeItem("a")
+            localStorage.removeItem("r")
+            localStorage.setItem('a', result.access_token)
+            localStorage.setItem('r', result.refresh_token)
+          }
+
+          error.config.headers.Authorization = `Bearer ${localStorage.getItem("a")}`
+          console.error(error.config)
           return axios.request(error.config);
 
         } catch (error) {
-          alert("세션이 만료되었습니다.")
+          // alert("세션이 만료되었습니다.")
+          console.error(`token expire!! \n ${error}` )
           throw error
         }
 
       case 500:
-        alert("500:서버로부터 에러가 발생했습니다.")
+        // alert("500:서버로부터 에러가 발생했습니다.")
         throw 500
       default:
-        alert("default에러남.")
+        // alert("default에러남.")
         console.error(`default Error!! \n ${error}` )
         throw error
     }

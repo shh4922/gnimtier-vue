@@ -1,38 +1,22 @@
 import { getWithToken } from '@/api/http.ts'
+import type { User } from '@/api/tft/model.tft.ts'
 
-export interface User {
-  puuid: string
-  gameName: string
-  tagLine: string
-  id: string
-  accountId: string
-  profileIconId: number
-  revisionDate: number
-  summonerLevel: number
-  entry: {
-    RANKED_TFR: {
-      leaguePoints: number
-      rank: number
-      wins: number
-      losses: number
-      veteran: boolean
-      inactive: boolean|null
-      freshBlood: boolean
-      hotStreak: boolean
-      tier: string
-      leagueId: string
-      queueType:string
-    }
-  }
-}
 
-export function fetchUserDetail() {
-  const res = getWithToken<User>('/user/detail')
+
+// export function fetchMyInfo():Promise<User> {
+//   try {
+//     const res = getWithToken<User>('users/me')
+//     console.log("fetch res",res)
+//     return res
+//   } catch (error) {
+//     console.error(error)
+//     throw error
+//   }
+// }
+
+export function fetchMyInfo() {
+  const res = getWithToken('users/me')
   return res
 }
 
-export function fetchUserList() {
-  const res = getWithToken<User[]>('/user/list')
-  return res
-}
 

@@ -1,29 +1,34 @@
 <script setup lang="ts">
+import { Tier } from '../data/Tier.ts'
 
-const props = defineProps(['rank']) // 부모Component에서 받은값
-
+const props = defineProps(['rank', 'summonerIcon', 'gameName', 'tagLine', 'summnerLevel', 'tier']) // 부모Component에서 받은값
 </script>
 
 <template>
   <div class="rank-cell-container">
-    <p class="rank p-bold">{{props.rank}}</p>
-    <img src="https://ddragon.leagueoflegends.com/cdn/15.1.1/img/profileicon/1.png" alt="" />
+    <p class="rank p-bold">{{ props.rank }}</p>
+    <img
+      :src="`https://ddragon.leagueoflegends.com/cdn/15.1.1/img/profileicon/${props.summonerIcon}.png`"
+      alt=""
+    />
+
     <div class="riot-info">
-      <p class="p-bold">나 잡아봐랑 끼힛</p>
-      <p>#kr1</p>
+      <p class="p-bold">{{ props.gameName }}</p>
+      <p>#{{ props.tagLine }}</p>
     </div>
     <div class="user-info">
-      <p class="p-bold">개쩌는 그님티 닉네임임</p>
+      <!--      <p class="p-bold">개쩌는 그님티 닉네임임</p>-->
+      <p class="p-bold">{{Tier[props.tier]}}</p>
       <p>백골부대</p>
     </div>
-    <p class="level">Lv. 192</p>
+    <p class="level">Lv. {{ props.summnerLevel }}</p>
   </div>
 </template>
 
 <style scoped>
 .rank-cell-container:hover {
-  background-color: #1E4747;
-  border: 1px solid #02FFFF;
+  background-color: #1e4747;
+  border: 1px solid #02ffff;
 }
 
 .rank-cell-container {
