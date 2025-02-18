@@ -7,13 +7,13 @@ import { onMounted, type Ref, ref } from 'vue'
 const userList: Ref<Array<tftUsersResponse>> = ref([]); // Ref 타입 명시
 
 async function getTftUserByGroup() {
-  userList.value = await fetchTftUserByGroup(); // fetchTftUserByGroup()은 API 호출 함수라고 가정
-  console.log(userList.value);
+  const res = await fetchTftUserByGroup(); // fetchTftUserByGroup()은 API 호출 함수라고 가정
+  userList.value = res.data
 }
 
 async function getGroup() {
   const res = await fetchGngGroup(); // fetchTftUserByGroup()은 API 호출 함수라고 가정
-  console.log(res);
+  console.log("group", res);
 }
 
 onMounted(()=> {

@@ -26,10 +26,9 @@ export function fetchTftUserByGroup(): Promise<tftUsersResponse[]> {
 
 /**
  * 모든 그룹 가져옴.
- *
+*
  */
 export function fetchGngGroup() {
   const res = getWithToken('/users/groups')
-
   return res
 }

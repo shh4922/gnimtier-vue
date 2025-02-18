@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import axios from 'axios'
 import { fetchTokenWithKakaoCode } from '@/api/auth.ts'
+import { useUserInfoStore } from '@/store/useUserInfoStore.ts'
 const route = useRoute()
 const router = useRouter()
-
+const userStore = useUserInfoStore()
 onMounted(() => {
   getKakaoToken()
 })
@@ -16,11 +16,11 @@ async function getKakaoToken() {
   if(!code) return
 
   const res = await fetchTokenWithKakaoCode(code)
-  console.log(res)
   localStorage.removeItem("a")
   localStorage.removeItem("r")
   localStorage.setItem('a', res.access_token)
   localStorage.setItem('r', res.refresh_token)
+
   router.push("/")
 }
 </script>

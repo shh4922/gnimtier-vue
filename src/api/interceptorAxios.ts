@@ -3,7 +3,7 @@ import { get } from '@/api/http.ts'
 import type { authResponse } from '@/api/auth.ts'
 
 const interceptorAxios = axios.create({
-  baseURL: import.meta.env.VITE_BASEURL,
+  baseURL: import.meta.env.VITE_API_BASEURL,
   timeout: 5000,
 })
 
@@ -13,15 +13,16 @@ interceptorAxios.interceptors.request.use(
 
     if(accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`
+      config.headers["Content-Type"] = "application/json"
     }
-
+    console.log(config)
     return config
   }
 )
 
 // 401일때 token refresh 하기위해 사용
 interceptorAxios.interceptors.response.use(
-  (res) => { return res.data },
+  (res) => { return res },
   async (error) => {
     switch (error?.response?.status) {
       case 401:
@@ -42,7 +43,7 @@ interceptorAxios.interceptors.response.use(
             localStorage.setItem('r', result.refresh_token)
           }
 
-          error.config.headers.Authorization = `Bearer ${localStorage.getItem("a")}`
+          error.config.headers.Authorization = `Bearer ${localStorage.getItem("r")}`
           console.error(error.config)
           return axios.request(error.config);
 

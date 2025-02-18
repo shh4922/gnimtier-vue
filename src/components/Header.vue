@@ -1,20 +1,38 @@
 <script setup lang="ts">
-import { onMounted, type Ref, ref } from 'vue'
+
+import { computed, onMounted, ref } from 'vue'
 import { fetchMyInfo } from '@/api/user.ts'
-import type { User } from '@/api/tft/model.tft.ts'
+import { useRouter } from 'vue-router'
+import { useUserInfoStore } from '@/store/useUserInfoStore.ts'
 
-// const access = ref(localStorage.getItem('a'))
-// const myInfo: Ref<User> = ref(null)
-// onMounted(() => {
-//   if (access.value) {
-//     console.log(access.value)
-//     getMyInfo()
-//   }
-// })
+const router = useRouter()
+const userStore = useUserInfoStore();
 
-// async function getMyInfo() {
-//   myInfo.value = await fetchMyInfo()
-// }
+const access = ref(localStorage.getItem('a'))
+const myInfo = computed(() => userStore.getUserInfo);
+
+onMounted(() => {
+  if (access.value) {
+    getMyInfo()
+  }
+})
+
+async function getMyInfo() {
+  const res = await fetchMyInfo()
+  if(!res) { return }
+  userStore.setUserInfo(res)
+  console.log("state에 저장된 userInfo",userStore.userInfo)
+}
+
+function moveToMyPage() {
+  router.push({ name: 'userInfo' })
+}
+
+function logout() {
+  localStorage.removeItem('a')
+  localStorage.removeItem('r')
+  userStore.setUserInfo(null)
+}
 </script>
 
 <template>
@@ -22,12 +40,11 @@ import type { User } from '@/api/tft/model.tft.ts'
     <router-link to="/">그래서 님 티어가?</router-link>
 
     <nav>
-<!--      <div v-if="access">-->
-<!--&lt;!&ndash;        <router-link to="/userInfo" class="btn-login">{{myInfo.nickname}}</router-link>&ndash;&gt;-->
-<!--        <router-link to="/login" class="btn-login">로그아웃</router-link>-->
-<!--      </div>-->
-<!--      v-if="!access"-->
-      <router-link to="/login" class="btn-login">로그인</router-link>
+      <div v-if="myInfo" class="user-status">
+        <img @click="moveToMyPage"  :src="myInfo.profileImageUrl" alt="프로필 이미지" class="profileImage">
+        <button class="btn-login" @click="logout">로그아웃</button>
+      </div>
+      <router-link v-if="!myInfo" to="/login" class="btn-login">로그인</router-link>
     </nav>
   </header>
 </template>
@@ -55,7 +72,21 @@ a {
   font-size: 1rem;
   border: 1px solid #ffffff;
   background: rgba(255, 255, 255, 0.16);
-  //margin-right: 100px;
 }
-/* Frame 661 */
+
+.user-status {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2rem;
+
+  .profileImage {
+    width: 50px;
+    height: 50px;
+
+    border-radius: 50%;
+    object-fit: cover;
+  }
+}
+
 </style>

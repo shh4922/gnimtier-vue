@@ -5,7 +5,7 @@ import { interceptorAxios } from '@/api/interceptorAxios.ts'
 
 
 const http: Axios = axios.create({
-  baseURL: import.meta.env.VITE_BASEURL,
+  baseURL: import.meta.env.VITE_API_BASEURL,
   headers: {
     'Content-Type': 'application/json',
   },
