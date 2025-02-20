@@ -1,6 +1,7 @@
 import axios from "axios";
 import { get } from '@/api/http.ts'
 import type { authResponse } from '@/api/auth.ts'
+import { removeToken, setTokenInLocal } from '@/common/auth.ts'
 
 const interceptorAxios = axios.create({
   baseURL: import.meta.env.VITE_API_BASEURL,
@@ -27,28 +28,33 @@ interceptorAxios.interceptors.response.use(
     switch (error?.response?.status) {
       case 401:
         try {
-          const refresh = localStorage.getItem('r')
-          const params = {
-            "Refresh" : refresh
+          // const refresh = localStorage.getItem('r')
+          const refresh = "eyJhbGciOiJIUzI1NiJ9.eyJ0b2tlblR5cGUiOiJyZWZyZXNoIiwic3ViIjoiZTIwODcyZTMtNjVlNS00OTI4LWIyNDYtOTI4MWZkMDVhMTVkIiwiaWF0IjoxNzQwMDU4NDg4LCJleHAiOjE3NDA2NjMyODh9.kUwlhrCNAos6Kp9EUGwsERl7ZEf_44PtzXLh9q8qEdU"
+          const headers = {
+            'Content-Type': 'application/json',
+            'refresh': `Bearer ${refresh}`,
+            'Access-Control-Allow-Origin': '*'
           }
 
           const result = await get<authResponse>("/auth/refresh", {
-            params: params,
+            headers: headers,
           })
 
+          console.log("result",result)
           if(result.access_token !== null) {
-            localStorage.removeItem("a")
-            localStorage.removeItem("r")
-            localStorage.setItem('a', result.access_token)
-            localStorage.setItem('r', result.refresh_token)
+            console.log("ac",result.access_token)
+            console.log("re",result.refresh_token)
+            removeToken()
+            setTokenInLocal(result.access_token, result.refresh_token)
+          } else {
+            alert("세션이 만료되었습니다.")
+            return Promise.reject(error)
           }
 
-          error.config.headers.Authorization = `Bearer ${localStorage.getItem("r")}`
-          console.error(error.config)
+          error.config.headers.Authorization = `Bearer ${localStorage.getItem("a")}`
           return axios.request(error.config);
 
         } catch (error) {
-          // alert("세션이 만료되었습니다.")
           console.error(`token expire!! \n ${error}` )
           throw error
         }

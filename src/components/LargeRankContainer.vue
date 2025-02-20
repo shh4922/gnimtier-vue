@@ -3,34 +3,48 @@
 import IndexRankCell from '@/components/IndexRankCell.vue'
 import { fetchGngGroup, fetchTftUserByGroup, type tftUsersResponse } from '@/api/tft/tft.ts'
 import { onMounted, type Ref, ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-const userList: Ref<Array<tftUsersResponse>> = ref([]); // Ref 타입 명시
+const router = useRouter()
+const userList: Ref<Array<tftUsersResponse>|null> = ref(null); // Ref 타입 명시
+const group: Ref<string> = ref("string"); // Ref 타입 명시
 
-async function getTftUserByGroup() {
-  const res = await fetchTftUserByGroup(); // fetchTftUserByGroup()은 API 호출 함수라고 가정
-  userList.value = res.data
-}
-
-async function getGroup() {
-  const res = await fetchGngGroup(); // fetchTftUserByGroup()은 API 호출 함수라고 가정
-  console.log("group", res);
-}
 
 onMounted(()=> {
-  getTftUserByGroup()
-  getGroup()
+  initGngGroup()
 })
 
+async function initGngGroup() {
+  const res = await fetchGngGroup();
+
+  if(res.length !== 0){ // 내가속한 그룹이 있다면 본인 그룹을 가져옴
+    group.value = res[0].name
+  }
+  const resultData = await fetchTftUserByGroup(group.value);
+  userList.value = resultData.data
+}
 </script>
 
 <template>
   <div class="rank-container">
-    <h2>을지부대 랭킹</h2>
-    <IndexRankCell v-for="(user,index) in userList" :key="index" :rank="index" :summoner-icon="user.summoner.profileIconId" :game-name="user.summoner.gameName" :tag-line="user.summoner.tagLine" :summner-level="user.summoner.summonerLevel" :tier="user.summoner.entry.RANKED_TFT.tier"/>
+    <h2>{{group}}</h2>
+    <P v-if="userList===null">로그인후 확인하셈</P>
+    <IndexRankCell
+      v-else-if="userList !== null"
+      v-for="(user,index) in userList"
+      :key="index"
+      :rank="index"
+      :summoner-icon="user.summoner.profileIconId"
+      :game-name="user.summoner.gameName"
+      :tag-line="user.summoner.tagLine"
+      :summner-level="user.summoner.summonerLevel"
+      :tier="user.summoner.entry.RANKED_TFT.tier"/>
+    <router-link class="more-button" :to="{name: 'groupList', query:{ page:1, groupName:group} }">더보기</router-link>
   </div>
 </template>
 
 <style scoped>
+
 .rank-container {
   display: flex;
   flex-direction: column;
@@ -45,4 +59,12 @@ h2 {
   color: #ffffff;
 }
 
+.more-button {
+  margin-top: 1rem;
+  background-color: transparent;
+  font-size: 1.5rem;
+  color: #02FFFF;
+  border: none;
+  text-align: center;
+}
 </style>

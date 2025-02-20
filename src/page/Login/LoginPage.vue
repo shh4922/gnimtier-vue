@@ -4,8 +4,8 @@
 
 function kakaoLogin() {
   window.Kakao.Auth.authorize({
-    redirectUri: "http://localhost:5173/kakaologin",
-    // redirectUri: "https://dev.xn--2i0bm6giy8a.kr/kakaologin",
+    // redirectUri: "http://localhost:5173/kakaologin",
+    redirectUri: "https://dev.xn--2i0bm6giy8a.kr/kakaologin",
   });
 }
 

@@ -11,8 +11,11 @@ const userStore = useUserInfoStore();
 const access = ref(localStorage.getItem('a'))
 const myInfo = computed(() => userStore.getUserInfo);
 
+
+// 저장된 토큰있으면 내정보 받아옴.
 onMounted(() => {
-  if (access.value) {
+  // 토큰은 있는데, 스토어에 내 정보가 없을경우 내정보 요청
+  if (access.value && myInfo.value === null) {
     getMyInfo()
   }
 })
@@ -21,7 +24,6 @@ async function getMyInfo() {
   const res = await fetchMyInfo()
   if(!res) { return }
   userStore.setUserInfo(res)
-  console.log("state에 저장된 userInfo",userStore.userInfo)
 }
 
 function moveToMyPage() {

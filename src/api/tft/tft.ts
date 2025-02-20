@@ -7,14 +7,21 @@ export interface tftUsersResponse {
   summoner: Summoner;
 }
 
+export interface groupResponse {
+  id: string;
+  name: string;
+  description: string;
+  parentId: string;
+  isRoot: boolean;
+}
 /**
  * GET: 그룹에 속한 유저리스트 fetch
  * 그런데 토큰이 필요없는것같음. 물어봐야함.
  */
-export function fetchTftUserByGroup(): Promise<tftUsersResponse[]> {
+export function fetchTftUserByGroup(groupName:string = "string",page=1): Promise<tftUsersResponse[]> {
   const params = {
-    "gameName": "string",
-    "groupId": "1",
+    "gameName": `${groupName}`,
+    "groupId": `${page}`,
     "sortBy": "tier",
     "page" : 0
   }
@@ -28,7 +35,7 @@ export function fetchTftUserByGroup(): Promise<tftUsersResponse[]> {
  * 모든 그룹 가져옴.
 *
  */
-export function fetchGngGroup() {
-  const res = getWithToken('/users/groups')
+export function fetchGngGroup(): Promise<groupResponse[]> {
+  const res = getWithToken<groupResponse[]>('/users/groups')
   return res
 }
