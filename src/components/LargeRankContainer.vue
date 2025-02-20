@@ -1,12 +1,11 @@
 <script setup lang="ts">
 
 import IndexRankCell from '@/components/IndexRankCell.vue'
-import { fetchGngGroup, fetchTftUserByGroup, type tftUsersResponse } from '@/api/tft/tft.ts'
+import { fetchGngGroup, fetchTftUserByGroup, type tftUserInfo } from '@/api/tft/tft.ts'
 import { onMounted, type Ref, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-const router = useRouter()
-const userList: Ref<Array<tftUsersResponse>|null> = ref(null); // Ref 타입 명시
+const userList: Ref<Array<tftUserInfo>|null> = ref(null); // Ref 타입 명시
 const group: Ref<string> = ref("string"); // Ref 타입 명시
 
 

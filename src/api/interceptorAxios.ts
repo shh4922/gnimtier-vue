@@ -40,10 +40,9 @@ interceptorAxios.interceptors.response.use(
             headers: headers,
           })
 
-          console.log("result",result)
+
           if(result.access_token !== null) {
-            console.log("ac",result.access_token)
-            console.log("re",result.refresh_token)
+
             removeToken()
             setTokenInLocal(result.access_token, result.refresh_token)
           } else {

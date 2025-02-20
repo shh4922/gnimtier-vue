@@ -2,16 +2,18 @@
 
 import { useRoute } from 'vue-router'
 import { onMounted, ref, type Ref } from 'vue'
-import { fetchTftUserByGroup, type tftUsersResponse } from '@/api/tft/tft.ts'
+import { fetchTftUserByGroup, type tftUserInfo } from '@/api/tft/tft.ts'
 
 const route = useRoute()
-const userList: Ref<Array<tftUsersResponse>|null> = ref(null); // Ref 타입 명시
-const qroupName = ref<string>(route.query.qroupName)
+const userList: Ref<Array<tftUserInfo>|null> = ref(null); // Ref 타입 명시
+const name: Ref<string> = ref<string>("")
 const page = ref<number>(Number(route.query.page) || 1);
 const totalPage = ref<number>(0)
 const groupListRef = ref<HTMLElement | null>(null);
 const isLoading = ref(false)
+
 onMounted(()=> {
+  name.value = route.query.qroupName
   if (groupListRef.value) {
     groupListRef.value.addEventListener("scroll", handleNotificationListScroll);
   }
@@ -22,8 +24,7 @@ async function getGroupTftUser(page: number = 1) {
   if(isLoading.value) return
 
   isLoading.value = true
-  const resultData = await fetchTftUserByGroup(qroupName.value, page);
-  console.log(resultData);
+  const resultData = await fetchTftUserByGroup(name.value, page);
 
   if (page === 1) {
     userList.value = resultData.data; // 첫 로드 시 덮어쓰기
@@ -37,7 +38,7 @@ async function getGroupTftUser(page: number = 1) {
 }
 
 
-function handleNotificationListScroll(e) {
+function handleNotificationListScroll(e:Event) {
   const { scrollHeight, scrollTop, clientHeight } = e.target;
   const isAtTheBottom = scrollHeight === scrollTop + clientHeight;
   // 일정 한도 밑으로 내려오면 함수 실행

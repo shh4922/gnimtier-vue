@@ -3,7 +3,7 @@ import LargeRankContainer from '@/components/LargeRankContainer.vue'
 import { onMounted, ref, type Ref } from 'vue'
 import { fetchMyInfo } from '@/api/user.ts'
 import type { User } from '@/api/tft/model.tft.ts'
-import type { tftUsersResponse } from '@/api/tft/tft.ts'
+import type { tftUserInfo } from '@/api/tft/tft.ts'
 import { getWithToken } from '@/api/http.ts'
 
 // const myInfo: Ref<User|null> = ref(null); // Ref 타입 명시
